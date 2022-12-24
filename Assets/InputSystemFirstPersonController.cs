@@ -1,3 +1,7 @@
+/*
+ * From Standard Assets (~2017) FirstPersonController, inputs from Input System
+ */
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityStandardAssets.Utility;
