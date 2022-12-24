@@ -45,6 +45,9 @@ public class InputSystemFirstPersonController : MonoBehaviour
     private AudioSource m_AudioSource;
     private PlayerInput m_PlayerInput;
     private InputAction m_Move;
+#if !MOBILE_INPUT
+    private InputAction m_Sprint;
+#endif
 
     // Use this for initialization
     private void Start()
@@ -61,6 +64,9 @@ public class InputSystemFirstPersonController : MonoBehaviour
         m_PlayerInput = GetComponent<PlayerInput>();
         var actions = m_PlayerInput.actions;
         m_Move = actions.FindAction("Move");
+#if !MOBILE_INPUT
+        m_Sprint = actions.FindAction("Sprint");
+#endif
         m_MouseLook.Init(actions.FindAction("Look"), transform , m_Camera.transform);
         actions.FindAction("Jump").performed += JumpPerformed;
     }
@@ -220,7 +226,7 @@ public class InputSystemFirstPersonController : MonoBehaviour
 #if !MOBILE_INPUT
         // On standalone builds, walk/run speed is modified by a key press.
         // keep track of whether or not the character is walking or running
-        m_IsWalking = !Input.GetKey(KeyCode.LeftShift);
+        m_IsWalking = !m_Sprint.IsPressed();
 #endif
         // set the desired speed to be walking or running
         speed = m_IsWalking ? m_WalkSpeed : m_RunSpeed;
